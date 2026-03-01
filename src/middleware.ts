@@ -13,10 +13,15 @@ export async function middleware(request: NextRequest) {
         }
 
         try {
-            const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+            if (!process.env.JWT_SECRET) {
+                console.error('Middleware Error: JWT_SECRET is missing');
+                return NextResponse.redirect(new URL('/teacher/login', request.url));
+            }
+            const secret = new TextEncoder().encode(process.env.JWT_SECRET);
             await jwtVerify(token, secret);
             return NextResponse.next();
-        } catch {
+        } catch (error) {
+            console.error('Middleware JWT Error:', error instanceof Error ? error.message : error);
             // Token invalid or expired
             const response = NextResponse.redirect(new URL('/teacher/login', request.url));
             response.cookies.set('teacher_session', '', { maxAge: 0, path: '/' });
