@@ -34,7 +34,7 @@ export default function TeacherLogin() {
                 return;
             }
 
-            router.push('/teacher');
+            window.location.href = '/teacher';
         } catch {
             setError('Network error. Please try again.');
         } finally {
