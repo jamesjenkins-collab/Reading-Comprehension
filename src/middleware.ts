@@ -18,9 +18,15 @@ export async function middleware(request: NextRequest) {
             await jwtVerify(token, secret);
             return NextResponse.next();
         } catch (error) {
-            console.error('Middleware JWT Error:', error instanceof Error ? error.message : error);
+            const errorMsg = error instanceof Error ? error.message : 'UnknownError';
+            console.error('Middleware JWT Error:', errorMsg);
+
             // Token invalid or expired
-            const response = NextResponse.redirect(new URL('/teacher/login', request.url));
+            const redirectUrl = new URL('/teacher/login', request.url);
+            redirectUrl.searchParams.set('error', 'session_invalid');
+            redirectUrl.searchParams.set('reason', errorMsg.substring(0, 50));
+
+            const response = NextResponse.redirect(redirectUrl);
             response.cookies.set('teacher_session', '', { maxAge: 0, path: '/' });
             return response;
         }

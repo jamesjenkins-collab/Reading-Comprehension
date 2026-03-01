@@ -29,7 +29,6 @@ export async function POST(request: NextRequest) {
         const secret = new TextEncoder().encode(jwtSecret);
         const token = await new SignJWT({ teacherId: teacher.id, email: teacher.email, name: teacher.name })
             .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
             .setExpirationTime('7d')
             .sign(secret);
 
