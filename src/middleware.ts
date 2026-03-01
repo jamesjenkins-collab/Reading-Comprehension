@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
+import { verifyJWT } from '@/lib/jwt';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -15,10 +15,8 @@ export async function middleware(request: NextRequest) {
         try {
             const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
 
-            // Use standard TextEncoder as recommended by jose docs for symmetric secrets
-            const secret = new TextEncoder().encode(jwtSecret);
-
-            await jwtVerify(token, secret);
+            // Verify using custom Web Crypto JWT implemention to prevent Edge decoding errors
+            await verifyJWT(token, jwtSecret);
             return NextResponse.next();
         } catch (error) {
             const errorMsg = error instanceof Error ? error.message : 'UnknownError';

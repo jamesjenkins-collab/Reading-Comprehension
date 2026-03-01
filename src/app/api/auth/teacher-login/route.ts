@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import { SignJWT } from 'jose';
-import CryptoJS from 'crypto-js';
-
+import { signJWT } from '@/lib/jwt';
 const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
@@ -28,13 +26,7 @@ export async function POST(request: NextRequest) {
         // Create JWT
         const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
 
-        // Use standard TextEncoder as recommended by jose docs for symmetric secrets
-        const secret = new TextEncoder().encode(jwtSecret);
-
-        const token = await new SignJWT({ teacherId: teacher.id, email: teacher.email, name: teacher.name })
-            .setProtectedHeader({ alg: 'HS256' })
-            .setExpirationTime('7d')
-            .sign(secret);
+        const token = await signJWT({ teacherId: teacher.id, email: teacher.email, name: teacher.name }, jwtSecret);
 
         const response = NextResponse.json({ success: true, name: teacher.name });
         response.cookies.set('teacher_session', token, {
