@@ -14,8 +14,15 @@ export async function middleware(request: NextRequest) {
 
         try {
             const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
-            const secret = new TextEncoder().encode(jwtSecret);
-            await jwtVerify(token, secret);
+
+            // Create a consistent 32-byte key for HS256 regardless of runtime environment
+            const encoder = new TextEncoder();
+            const secretKey = encoder.encode(jwtSecret).slice(0, 32);
+            // Pad if necessary
+            const finalSecret = new Uint8Array(32);
+            finalSecret.set(secretKey);
+
+            await jwtVerify(token, finalSecret);
             return NextResponse.next();
         } catch (error) {
             const errorMsg = error instanceof Error ? error.message : 'UnknownError';

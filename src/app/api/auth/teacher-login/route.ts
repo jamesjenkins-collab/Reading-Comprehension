@@ -25,12 +25,16 @@ export async function POST(request: NextRequest) {
         }
 
         // Create JWT
+        // Create a consistent 32-byte key for HS256 regardless of runtime environment
         const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
-        const secret = new TextEncoder().encode(jwtSecret);
+        const encoder = new TextEncoder();
+        const secretKey = encoder.encode(jwtSecret).slice(0, 32);
+        const finalSecret = new Uint8Array(32);
+        finalSecret.set(secretKey);
         const token = await new SignJWT({ teacherId: teacher.id, email: teacher.email, name: teacher.name })
             .setProtectedHeader({ alg: 'HS256' })
             .setExpirationTime('7d')
-            .sign(secret);
+            .sign(finalSecret);
 
         const response = NextResponse.json({ success: true, name: teacher.name });
         response.cookies.set('teacher_session', token, {
