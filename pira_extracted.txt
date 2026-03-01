@@ -1,0 +1,32 @@
+Found 5 PDFs. Starting extraction...
+
+Warning: Setting up fake worker.
+==== FILE: SCAN-0099.pdf ====
+Word Count (approx): 1314
+Sample Text: new ΓÇó P!I f1 I Name Before the test, explain what the term circle means and write the word answer on a board so pupils recognise it. Read the poem on page 2 and questions 1-3 on pages 2-3 once . If pupils ask for help, you may read questions 4-7 on page 3 as well. Test date I I Date of birth I I I Chronological age years months Content domain Marks 1 a Vocabulary /3 1 b Comprehension /11 1c Summary /2 1d Inference /7 1 e Prediction /2 Total marks /25 Text type Questions Poem 1-7 Story 8-16 Non-f...
+=======================
+
+Warning: Setting up fake worker.
+==== FILE: SCAN-0100.pdf ====
+Word Count (approx): 1739
+Sample Text: new ΓÇó P! I f' Name Read the instructions above the poem and the first three questions to the pupils (printed in dark blue) on pages 2-3, but do not read out the poem itself or questions 4-7 to them. Do not read out the other texts or questions on pages 4-8. Test date I I Date of birth I I Content domain Marks 1 a Vocabulary / 4 1 b Comprehension / 16 1c Summary / 2 1 d Inference / 7 1 e Prediction / 1 Total marks /30 @ Hodder & Stoughton Ltd. 2020 Photocopying Is prohibited. Chronological age ye...
+=======================
+
+Warning: Setting up fake worker.
+==== FILE: SCAN-0101.pdf ====
+Word Count (approx): 2832
+Sample Text: new ΓÇó P !I f' Name Pull out the sheet of reading texts from the middle. Read the texts and answer the questions. Test date I I Date of birth I I I Chronological age years months - .... - Content domain Marks Text type Questions Marks 2a Vocabulary /5 Non-fiction 1-9 /12 2b Comprehension /8 Playscript 10-21 /13 2c Summary /6 Story 22-34 /15 2d Inference /10 2e Prediction /2 Reading age - -------------- 2f Structure /4 Hodder Scale 2g Impact /3 Age-standardised score -------- 2h Comparison /2 Stan...
+=======================
+
+Warning: Setting up fake worker.
+==== FILE: SCAN-0102.pdf ====
+Word Count (approx): 2696
+Sample Text: new ΓÇó P !I f1 Name Test date I Date of birth Content domain 2a Vocabulary 2b Comprehension 2c Summary 2d Inference 2e Prediction 2f Structure 2g Impact 2h Comparison I Total marks 0 ' Pull out the sheet of reading texts from the middle. I Read the texts and answer the questions. I I Marks I /8 /12 /5 /12 /2 /2 /2 /2 /45 I Chronologica l age years Text type Questions Playscript 1-11 Story 12-23 Non-fiction 24-30 Reading age Hodder Scale Age-standard is Standardised sc ed score ore months Marks /1...
+=======================
+
+Warning: Setting up fake worker.
+==== FILE: SCAN-0103.pdf ====
+Word Count (approx): 2857
+Sample Text: new ΓÇó P !I S' Name Test date I Date of birth Content domain 2a Vocabulary 2b Comprehension 2c Summary 2d Inference 2e Prediction 2f Structure 2g Impact 2h Comparison I Total marks Pull out the sheet of reading texts from the middle. Read the texts and answer the questions. I I I I Chronological age years Marks Text type Questions /4 /7 /4 /13 /2 /2 /6 /2 /40 Report Story Playscript Reading age Hodder Scale Age-standard Standardised 1-10 11-25 26-35 ised score -- score months -- Marks /12 /18 /10...
+=======================
+

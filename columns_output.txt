@@ -1,0 +1,66 @@
+Assignment table columns: [
+  {
+    cid: 0n,
+    name: 'id',
+    type: 'TEXT',
+    notnull: 1n,
+    dflt_value: null,
+    pk: 1n
+  },
+  {
+    cid: 1n,
+    name: 'teacherId',
+    type: 'TEXT',
+    notnull: 1n,
+    dflt_value: null,
+    pk: 0n
+  },
+  {
+    cid: 2n,
+    name: 'studentId',
+    type: 'TEXT',
+    notnull: 1n,
+    dflt_value: null,
+    pk: 0n
+  },
+  {
+    cid: 3n,
+    name: 'passageId',
+    type: 'TEXT',
+    notnull: 0n,
+    dflt_value: null,
+    pk: 0n
+  },
+  {
+    cid: 4n,
+    name: 'moduleName',
+    type: 'TEXT',
+    notnull: 1n,
+    dflt_value: null,
+    pk: 0n
+  },
+  {
+    cid: 5n,
+    name: 'status',
+    type: 'TEXT',
+    notnull: 1n,
+    dflt_value: null,
+    pk: 0n
+  },
+  {
+    cid: 6n,
+    name: 'createdAt',
+    type: 'DATETIME',
+    notnull: 1n,
+    dflt_value: 'CURRENT_TIMESTAMP',
+    pk: 0n
+  },
+  {
+    cid: 7n,
+    name: 'updatedAt',
+    type: 'DATETIME',
+    notnull: 1n,
+    dflt_value: null,
+    pk: 0n
+  }
+]

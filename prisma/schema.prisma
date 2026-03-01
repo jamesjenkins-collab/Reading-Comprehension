@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  assignments  Assignment[]
+  students     Student[]
+}
+
+model Student {
+  id                    String            @id @default(uuid())
+  teacherId             String
+  alias                 String
+  pin                   String
+  piraBaselineScore     Int?
+  currentDifficultyBand String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  assignments           Assignment[]
+  teacher               Teacher           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  responses             StudentResponse[]
+
+  @@unique([teacherId, alias])
+}
+
+model Passage {
+  id                 String       @id @default(uuid())
+  title              String
+  content            String
+  yearGroup          Int
+  piraDifficultyBand String
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  assignments        Assignment[]
+  questions          Question[]
+}
+
+model Question {
+  id            String            @id @default(uuid())
+  passageId     String
+  readingDomain String
+  questionType  String
+  prompt        String
+  options       String?
+  correctAnswer String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  passage       Passage           @relation(fields: [passageId], references: [id], onDelete: Cascade)
+  responses     StudentResponse[]
+}
+
+model Assignment {
+  id         String            @id @default(uuid())
+  teacherId  String
+  studentId  String
+  passageId  String?
+  moduleName String
+  status     String
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  passage    Passage?          @relation(fields: [passageId], references: [id])
+  teacher    Teacher           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  student    Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  responses  StudentResponse[]
+}
+
+model StudentResponse {
+  id            String     @id @default(uuid())
+  studentId     String
+  questionId    String
+  assignmentId  String
+  studentAnswer String
+  isCorrect     Boolean
+  timestamp     DateTime   @default(now())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  assignment    Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  question      Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  student       Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
