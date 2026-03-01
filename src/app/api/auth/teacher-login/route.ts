@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { createSessionCookie } from '@/lib/session';
+import { SESSION_SECRET, COOKIE_NAME } from '@/lib/config';
 
 const prisma = new PrismaClient();
 
@@ -24,13 +25,11 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
         }
 
-        // Create JWT
-        const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
-
-        const token = await createSessionCookie({ teacherId: teacher.id, email: teacher.email, name: teacher.name }, jwtSecret);
+        // Create Session Token
+        const token = await createSessionCookie({ teacherId: teacher.id, email: teacher.email, name: teacher.name }, SESSION_SECRET);
 
         const response = NextResponse.json({ success: true, name: teacher.name });
-        response.cookies.set('teacher_session', token, {
+        response.cookies.set(COOKIE_NAME, token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import { COOKIE_NAME } from '@/lib/config';
 
 export async function POST() {
     const response = NextResponse.json({ success: true });
-    response.cookies.set('teacher_session', '', {
+    response.cookies.set(COOKIE_NAME, '', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',

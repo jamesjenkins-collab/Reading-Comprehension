@@ -1,22 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifySessionCookie } from '@/lib/session';
+import { SESSION_SECRET, COOKIE_NAME } from '@/lib/config';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Only protect /teacher routes; allow /teacher/login through
     if (pathname.startsWith('/teacher') && !pathname.startsWith('/teacher/login')) {
-        const token = request.cookies.get('teacher_session')?.value;
+        const token = request.cookies.get(COOKIE_NAME)?.value;
 
         if (!token) {
             return NextResponse.redirect(new URL('/teacher/login', request.url));
         }
 
         try {
-            const secret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
-
             // Verify using simple HMAC session cookie logic
-            await verifySessionCookie(token, secret);
+            await verifySessionCookie(token, SESSION_SECRET);
             return NextResponse.next();
         } catch (error) {
             const errorMsg = error instanceof Error ? error.message : 'UnknownError';
@@ -28,7 +27,7 @@ export async function middleware(request: NextRequest) {
             redirectUrl.searchParams.set('reason', errorMsg.substring(0, 50));
 
             const response = NextResponse.redirect(redirectUrl);
-            response.cookies.set('teacher_session', '', { maxAge: 0, path: '/' });
+            response.cookies.set(COOKIE_NAME, '', { maxAge: 0, path: '/' });
             return response;
         }
     }
