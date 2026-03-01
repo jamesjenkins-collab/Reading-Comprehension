@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyJWT } from '@/lib/jwt';
+import { verifySessionCookie } from '@/lib/session';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -13,10 +13,10 @@ export async function middleware(request: NextRequest) {
         }
 
         try {
-            const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
+            const secret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
 
-            // Verify using custom Web Crypto JWT implemention to prevent Edge decoding errors
-            await verifyJWT(token, jwtSecret);
+            // Verify using simple HMAC session cookie logic
+            await verifySessionCookie(token, secret);
             return NextResponse.next();
         } catch (error) {
             const errorMsg = error instanceof Error ? error.message : 'UnknownError';

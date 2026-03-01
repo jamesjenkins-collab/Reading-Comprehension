@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import { signJWT } from '@/lib/jwt';
+import { createSessionCookie } from '@/lib/session';
+
 const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
         // Create JWT
         const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
 
-        const token = await signJWT({ teacherId: teacher.id, email: teacher.email, name: teacher.name }, jwtSecret);
+        const token = await createSessionCookie({ teacherId: teacher.id, email: teacher.email, name: teacher.name }, jwtSecret);
 
         const response = NextResponse.json({ success: true, name: teacher.name });
         response.cookies.set('teacher_session', token, {
