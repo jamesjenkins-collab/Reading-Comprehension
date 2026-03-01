@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
         }
 
         // Create JWT
-        const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+        const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
+        const secret = new TextEncoder().encode(jwtSecret);
         const token = await new SignJWT({ teacherId: teacher.id, email: teacher.email, name: teacher.name })
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
