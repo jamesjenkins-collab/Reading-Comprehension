@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
+import CryptoJS from 'crypto-js';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -15,12 +16,17 @@ export async function middleware(request: NextRequest) {
         try {
             const jwtSecret = process.env.JWT_SECRET || 'reading_intervention_fallback_secret_2026';
 
-            // Create a consistent 32-byte key for HS256 regardless of runtime environment
-            const encoder = new TextEncoder();
-            const secretKey = encoder.encode(jwtSecret).slice(0, 32);
-            // Pad if necessary
+            // Hash the secret to exactly 32 bytes (256 bits) using SHA256
+            const hash = CryptoJS.SHA256(jwtSecret);
+            const hashArray = CryptoJS.enc.Hex.parse(hash.toString());
             const finalSecret = new Uint8Array(32);
-            finalSecret.set(secretKey);
+            for (let i = 0; i < 32; i++) {
+                // Get the 32-bit word, then extract the 8-bit block
+                const wordIndex = Math.floor(i / 4);
+                const byteIndex = i % 4;
+                const shift = 24 - (byteIndex * 8);
+                finalSecret[i] = (hashArray.words[wordIndex] >>> shift) & 0xff;
+            }
 
             await jwtVerify(token, finalSecret);
             return NextResponse.next();
